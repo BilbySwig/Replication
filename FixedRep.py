@@ -24,6 +24,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt 
 import igraph
 from igraph import Graph
+import pandas as pd
 
 start=time.time()
 
@@ -41,8 +42,8 @@ strategies=["ALL_C", "ALL_D", "Tit4Tat", "CautiousTit", "Alternate", "Random"]
 stratsSize=6
 
 Pb=1      #this doesn't really matter rn but it's important to have bc i might end up testing lowered Pb's
-Pn=.75
-Pr=.007
+Pn=.85
+Pr=.017
 relationships=np.zeros((populationSize,populationSize)).astype(int)
 
 #unimportant for the replication but it made it easier to copy over some other code
@@ -230,7 +231,7 @@ avgCC=np.mean(clusteringCoefData, axis=0)
 CChigh475=np.percentile(clusteringCoefData,97.5, axis=0)
 CClow475=np.percentile(clusteringCoefData,2.5, axis=0)
 
-ax[0,0].set_xlim([0,17.5])     
+ax[0,0].set_xlim([0,32.5])     
 ax[0,0].plot(xaxisDD, avgDegDist, color='black')
 ax[0,0].plot(xaxisDD, medDegDist, color="green")
 ax[0,0].fill_between(x=xaxisDD, y1=avgDegDist, y2=DDhigh475, color='blue')
@@ -242,5 +243,7 @@ ax[1,0].fill_between(x=xaxisCC, y1=avgCC, y2=CChigh475, color='#FF6666')
 ax[1,0].fill_between(x=xaxisCC, y1=avgCC, y2=CClow475, color='#FF6666')
 
 print(time.time()-start)
+#sheet=pd.DataFrame(np.arange(populationSize+1, 1), avgDegDist, avgCC)
+#print(sheet)
 
 plt.show()

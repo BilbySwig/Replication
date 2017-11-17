@@ -40,7 +40,7 @@ howManyDie=10
 Pb=1      #this doesn't really matter rn but it's important to have bc i might end up testing lowered Pb's
 Pn=.85
 Pr=.017
-relationships=[[0 for i in range(populationSize)]for j in range(populationSize)] 
+relationships=np.zeros((populationSize, populationSize))
 
 class Individual:
     def __init__(self, strat, pay, ind):
@@ -110,7 +110,9 @@ def initSim():
     for i in range(populationSize):
         guy=Individual("rand", 0, i)
         guy.clearMoves()
-        population.append(guy)        
+        population.append(guy)    
+        
+            
         
     for i in range(populationSize):
         for j in range(i, populationSize):
@@ -298,18 +300,6 @@ for k in range(simulationRuns):
     clusteringCoefData[j]=clusco
     
     print(time.time()-strt)
-    '''
-    plt.plot(data[0], 'g-', label='Cooperators')
-    plt.plot(data[1], 'r-', label='Defectors')
-    plt.plot(data[2], 'b-', label='Tit for Tat')
-    plt.plot(data[3], 'c-', label='Cautious Tit for Tat')
-    plt.plot(data[4], 'm-', label='Alternate')
-    plt.plot(data[5], 'k-', label='Random')
-    plt.ylabel('% of Population Using Designated Strategy')
-    plt.xlabel('Generation')
-    plt.legend()
-    #plt.show()
-    '''
     
 xaxisDD=np.arange(0, len(degreeDistributionData[0]), 1)
 xaxisCC=np.arange(0, 1, 1/(populationSize+1))
@@ -324,22 +314,6 @@ avgCC=np.mean(clusteringCoefData, axis=0)
 CChigh475=np.percentile(clusteringCoefData,97.5, axis=0)
 CClow475=np.percentile(clusteringCoefData,2.5, axis=0)
 
-'''
-xaxis=np.arange(0, populationSize, 1)
-
-fig, ax =plt.subplots()    
-avgDegDist=np.mean(degreeDistributionData, axis=0)
-high475=np.zeros(populationSize)
-low475=np.zeros(populationSize)
-
-critVal=1.984
-margOfError=np.zeros(populationSize)
-stdErr=stats.sem(degreeDistributionData, axis=0)
-for i in range(populationSize):
-    margOfError[i]=critVal*stdErr[i]
-    high475[i]=avgDegDist[i]+margOfError[i]
-    low475[i]=avgDegDist[i]-margOfError[i]
-'''     
      
 ax[0,0].set_xlim([0,32])     
 ax[0,0].plot(xaxisDD, avgDegDist, color='black')
